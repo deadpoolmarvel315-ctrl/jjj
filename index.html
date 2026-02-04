@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<!-- Cute font -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Baloo 2', cursive;
+    font-weight:700;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+/* IMAGE ABOVE TEXT */
+.top-image{
+    width:180px;
+    max-width:70%;
+    margin:0 auto 15px;
+    display:block;
+    border-radius:20px;
+    box-shadow:0 0 25px rgba(255,102,204,0.6);
+}
+
+/* GLOW TEXT */
+.glow{
+    text-shadow:0 0 10px #ff66cc,0 0 25px #ff66cc;
+}
+
+/* HEARTBEAT */
+.heartbeat{
+    animation:heartbeat 0.8s infinite;
+}
+@keyframes heartbeat{
+    0%{transform:scale(1);}
+    20%{transform:scale(1.15);}
+    40%{transform:scale(1);}
+    60%{transform:scale(1.25);}
+    100%{transform:scale(1);}
+}
+
+/* FLOATING HEARTS */
+.bg-heart{
+    position:absolute;
+    font-size:22px;
+    animation:float 8s linear infinite;
+    opacity:0.8;
+    font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";
+}
+@keyframes float{
+    0%{transform:translateY(100vh);}
+    100%{transform:translateY(-10vh);}
+}
+
+.container{
+    z-index:5;
+    padding:20px;
+}
+
+h1{
+    font-size:30px;
+    margin-bottom:30px;
+    line-height:1.3;
+}
+
+/* BUTTONS */
+.buttons{
+    position:relative;
+    width:260px;
+    height:80px;
+    margin:auto;
+}
+
+button{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+
+#yesBtn{
+    background:#00ff9c;
+    position:absolute;
+    left:0;
+}
+
+#noBtn{
+    background:#ff1744;
+    color:white;
+    position:absolute;
+    right:0;
+}
+
+/* FIREWORKS */
+.firework{
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    animation:explode 1.5s ease-out forwards;
+}
+@keyframes explode{
+    0%{transform:scale(1);opacity:1;}
+    100%{transform:scale(4);opacity:0;}
+}
+
+/* CURSOR HEARTS */
+.cursor-heart{
+    position:fixed;
+    font-size:18px;
+    pointer-events:none;
+    animation:cursorPop 1s ease-out forwards;
+    font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";
+}
+@keyframes cursorPop{
+    0%{transform:scale(0.6);opacity:1;}
+    100%{transform:translateY(-30px) scale(1.4);opacity:0;}
+}
+
+/* ROSES */
+.rose{
+    position:fixed;
+    top:-40px;
+    font-size:30px;
+    animation:fallRose 4s linear forwards;
+    font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";
+}
+@keyframes fallRose{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(110vh);}
+}
+
+/* START OVERLAY */
+#startOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+#startOverlay button{
+    font-size:20px;
+    padding:18px 35px;
+    border-radius:40px;
+    background:#00ff9c;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TAP TO START -->
+<div id="startOverlay">
+    <button id="startBtn">TAP TO START 🎶</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c9efb2c44.mp3">
+</audio>
+
+<div class="container" id="main">
+
+    <!-- ✅ CORRECT IMAGE PATH -->
+    <img src="cute-image.jpeg" class="top-image" >
+
+    <h1>
+        <span id="name" class="glow">SEJU MY LOVE</span>,<br>
+        WILL YOU BE MY VALENTINE? 💘
+    </h1>
+
+    <div class="buttons">
+        <button id="yesBtn">YES 💖</button>
+        <button id="noBtn">NO 😜</button>
+    </div>
+</div>
+
+<div class="container" id="success" style="display:none;">
+    <h2>I LOVE YOUU MY PUCHKIII 😚</h2>
+    <img src="https://media.giphy.com/media/gRSqTmhQ3ayroAQ04S/giphy.gif" width="260">
+</div>
+
+<script>
+// FLOATING HEARTS
+for(let i=0;i<20;i++){
+    const h=document.createElement("div");
+    h.className="bg-heart";
+    h.textContent="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(5+Math.random()*5)+"s";
+    document.body.appendChild(h);
+}
+
+// START MUSIC
+const music=document.getElementById("bgMusic");
+document.getElementById("startBtn").onclick=()=>{
+    music.play().catch(()=>{});
+    document.getElementById("startOverlay").style.display="none";
+};
+
+// NO BUTTON ESCAPE
+const noBtn=document.getElementById("noBtn");
+function moveNo(){
+    noBtn.style.left=(Math.random()*40+120)+"px";
+    noBtn.style.top=(Math.random()*40)+"px";
+}
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("touchstart",moveNo);
+
+// FIREWORKS
+function fireworks(){
+    for(let i=0;i<40;i++){
+        const f=document.createElement("div");
+        f.className="firework";
+        f.style.left=Math.random()*100+"vw";
+        f.style.top=Math.random()*100+"vh";
+        f.style.background=`hsl(${Math.random()*360},100%,60%)`;
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1500);
+    }
+}
+
+// ROSE RAIN
+function roseRain(){
+    for(let i=0;i<12;i++){
+        setTimeout(()=>{
+            const r=document.createElement("div");
+            r.className="rose";
+            r.textContent="🌹";
+            r.style.left=Math.random()*100+"vw";
+            document.body.appendChild(r);
+            setTimeout(()=>r.remove(),4000);
+        },i*300);
+    }
+}
+
+// YES CLICK
+document.getElementById("yesBtn").onclick=()=>{
+    document.getElementById("name").classList.add("heartbeat");
+    document.getElementById("main").style.display="none";
+    document.getElementById("success").style.display="block";
+    fireworks();
+    roseRain();
+    setInterval(fireworks,1200);
+};
+
+// HEARTS FOLLOW CURSOR / TOUCH
+function spawnHeart(x,y){
+    const el=document.createElement("div");
+    el.className="cursor-heart";
+    el.textContent=Math.random()>0.7?"🌹":"💓";
+    el.style.left=x+"px";
+    el.style.top=y+"px";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1000);
+}
+
+document.addEventListener("mousemove",e=>{
+    spawnHeart(e.clientX,e.clientY);
+});
+
+document.addEventListener("touchmove",e=>{
+    const t=e.touches[0];
+    if(t) spawnHeart(t.clientX,t.clientY);
+});
+</script>
+
+</body>
+</html>
